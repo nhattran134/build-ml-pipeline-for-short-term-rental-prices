@@ -29,6 +29,11 @@ def go(args):
 
     #Convert last review to datetome
     df['last_review'] = pd.to_datetime(df['last_review'])
+
+    # Remove places outside of NYC
+    logger.info("Removing coordinates outside of NY")
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
     
     # Save the results to a CSV file
     logger.info("Save preprocessed data to CSV")
